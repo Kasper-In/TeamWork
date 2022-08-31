@@ -15,7 +15,9 @@ public class Main {
         }
         System.out.println(listFood.toString());
         while (true) {
-            System.out.println("Выберите товар путем ввода его номера и количества. Для завершения покупок введите end");
+            System.out.println("Выберите товар путем ввода его номера и количества. " +
+                    "Если хотите уменьшить количество товара в корзине, введите количество с минусом");
+            System.out.println("Для завершения покупок введите end");
             String inputStr = scanner.nextLine();
             if (inputStr.equals("end")) break;
             else if (inputStr == "") continue;
@@ -37,8 +39,17 @@ public class Main {
                 System.out.println("Такого номера товара нет в предложенном перечне");
                 continue;
             }
-            basket[numFood] += countFood;
-            sumFood += countFood * price[numFood];
+            //Уменьшение товара в корзине
+            if (countFood < 0 && basket[numFood] < Math.abs(countFood)){
+                System.out.println("В корзине нет столько товара для уменьшения. Сейчас в корзине " + basket[numFood] + " шт.");
+                System.out.println();
+            } else if (countFood == 0) {               // обнуление товара в корзине
+                sumFood -= basket[numFood] * price[numFood];
+                basket[numFood] = 0;
+            } else {
+                basket[numFood] += countFood;
+                sumFood += countFood * price[numFood];
+            }
         }
         if (sumFood == 0) {
             System.out.println("Ваша корзина пуста");
