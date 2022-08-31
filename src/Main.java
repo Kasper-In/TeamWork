@@ -42,6 +42,9 @@ public class Main {
             if (countFood < 0 && basket[numFood] < Math.abs(countFood)){
                 System.out.println("В корзине нет столько товара для уменьшения. Сейчас в корзине " + basket[numFood] + " шт.");
                 System.out.println();
+            } else if (countFood == 0) {               // обнуление товара в корзине
+                sumFood -= basket[numFood] * price[numFood];
+                basket[numFood] = 0;
             } else {
                 basket[numFood] += countFood;
                 sumFood += countFood * price[numFood];
