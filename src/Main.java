@@ -6,6 +6,7 @@ public class Main {
         String[] food = {"Хлеб", "Масло", "Чай", "Вода", "Колбаса"};
         int[] basket = new int[food.length];
         int[] price = {59, 150, 243, 30, 580};
+        String[] sales = {"Вода", "Чай"};
         int sumFood = 0;
         System.out.println("Список товаров доступных для добавления в корзину:");
         StringBuilder listFood = new StringBuilder();
@@ -44,9 +45,28 @@ public class Main {
         } else {
             System.out.println("Ваш заказ: \n");
             listFood.setLength(0);
+            sumFood = 0;
             for (int i = 0; i < basket.length; i++) {
                 if (!(basket[i] == 0)) {
-                    listFood.append(food[i] + " " + basket[i] + " шт. * " + price[i] + " руб = " + (basket[i] * price[i]) + " руб. \n");
+                    if (basket[i] > 2 && sales.length > 0) {
+                        boolean find = false;
+                        for (String sale : sales) {
+                            if (sale.equals(food[i])) {
+                                find = true;
+                                int countSales = basket[i] / 3;
+                                listFood.append(food[i] + " " + basket[i] + " шт. * " + price[i] + " руб = " + (basket[i] * price[i]) + " руб.");
+                                listFood.append(" скидка по акции товара составила " + countSales * price[i] + " руб. \n");
+                                sumFood += (basket[i] * price[i]) - (countSales * price[i]);
+                            }
+                        }
+                        if (find != true) {
+                            listFood.append(food[i] + " " + basket[i] + " шт. * " + price[i] + " руб = " + (basket[i] * price[i]) + " руб. \n");
+                            sumFood += basket[i] * price[i];
+                        }
+                    } else {
+                        listFood.append(food[i] + " " + basket[i] + " шт. * " + price[i] + " руб = " + (basket[i] * price[i]) + " руб. \n");
+                        sumFood += basket[i] * price[i];
+                    }
                 }
             }
             listFood.append("Итоговая сумма покупки = " + sumFood + " руб");
